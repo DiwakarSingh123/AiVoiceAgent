@@ -11,7 +11,7 @@ import redisClient from "./config/redis.js";
 import GemniResponse from "./Gemni.js";
 
 app.use(cors({
-  origin: "http://localhost:5173", // jahan se frontend run kar raha hai (Vite/React ka port)
+  origin: "https://aivoiceagent-frontents.onrender.com", // jahan se frontend run kar raha hai (Vite/React ka port)
   credentials: true // 👈 cookies allow karna hoga
 }));
 
