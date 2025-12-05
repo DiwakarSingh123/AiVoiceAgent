@@ -40,8 +40,8 @@ export const Register = async (req, res) => {
     // genrate token
     const token = jwt.sign({ "_id": newUser._id, "email": newUser.email, "name": newUser.name }, process.env.JWT_SECRATE_KEY, { expiresIn: "7d" })
     res.cookie("token", token, {
-      secure: false,
-      sameSite: "strict",
+      secure: true,
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true
     })
@@ -80,8 +80,8 @@ export const Loging = async (req, res) => {
     // genrate token....
     const token = jwt.sign({ "_id": user._id, "email": user.email, "name": user.name }, process.env.JWT_SECRATE_KEY, { expiresIn: "7d" })
     res.cookie("token", token, {
-      secure: false,
-      sameSite: "strict",
+      secure: true,
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true
     })
@@ -133,8 +133,8 @@ export const GoogleAuth = async (req, res) => {
       // genrate token
     const token = jwt.sign({ "_id": user._id, "email": user.email, "name": user.name }, process.env.JWT_SECRATE_KEY, { expiresIn: "7d" })
     res.cookie("token", token, {
-      secure: false,
-      sameSite: "strict",
+     secure: true,
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true
     })
@@ -155,8 +155,8 @@ export const GoogleAuth = async (req, res) => {
      // genrate token
     const token = jwt.sign({ "_id": user._id, "email": user.email, "name": user.name }, process.env.JWT_SECRATE_KEY, { expiresIn: "7d" })
     res.cookie("token", token, {
-      secure: false,
-      sameSite: "strict",
+     secure: true,
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true
     })
