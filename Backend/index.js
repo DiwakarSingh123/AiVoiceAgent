@@ -21,8 +21,10 @@ app.use(cookieParser());
 
 
 app.get('/', async (req, res) => {
-  // res.send('Hello World!')
   let prompt=req.query.prompt
+  if (!prompt) {
+      return res.json({ status: "active", message: "Server is running! Please provide a prompt query parameter, e.g. /?prompt=hello" });
+  }
   let data=await GemniResponse(prompt);
   res.json(data)
 })

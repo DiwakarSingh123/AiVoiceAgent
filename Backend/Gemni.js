@@ -2,7 +2,7 @@ import axios from "axios";
 
 const GemniResponse =async (prompt,userName,assistantName) =>{
     try {
-        const apiUrl=process.env.GOOGLE_API_URL;
+        const apiUrl=process.env.GOOGLE_API_URL?.replace(/['"]/g, '');
         const geminiPrompt = `You are a virtual AI assistant named ${assistantName} created by ${userName}.
 
 You are not Google. You will now behave like a voice-enabled assistant. 
