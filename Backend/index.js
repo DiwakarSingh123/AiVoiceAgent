@@ -39,8 +39,8 @@ app.use('/api/user',userRouter);
    await Promise.all([main(),redisClient.connect()]);
     console.log("Database & Redis connected");
 
-    app.listen(process.env.PORT, ()=>{
-    console.log("Server lishening at Port "+process.env.PORT)
+    app.listen(PORT, ()=>{
+    console.log("Server lishening at Port "+PORT)
     
     })
 }
