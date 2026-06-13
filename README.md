@@ -69,39 +69,6 @@ AiVoiceAgent/
 
 ---
 
-## ⚙️ Environment Variables
-
-To run the project locally or deploy it to production, you need to configure the following environment variables.
-
-### Backend (`/Backend/.env`)
-Create a `.env` file inside the `Backend` directory:
-```env
-PORT=8000
-DATABASE_URL=your_mongodb_connection_string
-JWT_SECRATE_KEY=your_jwt_secret_key
-
-# Cloudinary (For Avatar Uploads)
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-
-# Gemini API Endpoint & Key
-GOOGLE_API_URL="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=YOUR_GEMINI_API_KEY"
-```
-
-### Frontend (`/Frontent/.env`)
-Create a `.env` file inside the `Frontent` directory (used for Firebase Google Auth):
-```env
-VITE_FIREBASE_API_KEY=your_firebase_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_firebase_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
-VITE_FIREBASE_APP_ID=your_firebase_app_id
-```
-
----
-
 ## 💻 Running the Project Locally
 
 ### Prerequisites
