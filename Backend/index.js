@@ -34,9 +34,9 @@ app.use('/api/user',userRouter);
 
 
 
- function inilizeConnection(){
+ async function inilizeConnection  (){
     
-    Promise.all([main(),redisClient.connect()]);
+   await Promise.all([main(),redisClient.connect()]);
     console.log("Database & Redis connected");
 
     app.listen(process.env.PORT, ()=>{

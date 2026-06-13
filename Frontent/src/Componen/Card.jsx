@@ -52,7 +52,7 @@ const Card = ({ src, label, selected, onClick, isUpload = false, onUpload }) => 
             className="flex flex-col items-center justify-center gap-2 cursor-pointer"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="w-16 h-16 rounded-lg border-2 border-dashed border-white/30 flex items-center justify-center bg-white/5">
+            <div className="w-16 h-16 rounded-lg border-2 border-dashed  border-white/30 flex items-center justify-center bg-white/5">
               <FiUpload className="text-white/80" size={28} />
             </div>
             <div className="text-sm text-white/80">Upload</div>
