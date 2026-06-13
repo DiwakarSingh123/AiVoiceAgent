@@ -35,13 +35,15 @@ app.use('/api/user',userRouter);
 
 
  async function inilizeConnection  (){
-    
-   await Promise.all([main(),redisClient.connect()]);
-    console.log("Database & Redis connected");
+    try {
+        await Promise.all([main(), redisClient.connect()]);
+        console.log("Database & Redis connected");
+    } catch (err) {
+        console.error("Failed to connect to Database or Redis during startup:", err);
+    }
 
     app.listen(PORT, ()=>{
-    console.log("Server lishening at Port "+PORT)
-    
+        console.log("Server lishening at Port "+PORT)
     })
 }
 
