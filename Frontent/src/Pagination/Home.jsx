@@ -171,20 +171,25 @@ const handleCommond = (data) => {
           .toLowerCase()
           .includes(user.assistantName.toLowerCase())
       ) {
-        const res = await axiosClient.post("/api/user/asktoassistant", {
-          prompt: transcript,
-        });
+        try {
+          const res = await axiosClient.post("/api/user/asktoassistant", {
+            prompt: transcript,
+          });
 
-        console.log(res);
-        
+          console.log(res);
 
-        if (res?.data?.response) {
-          window.speechRecognitionActive = false;
-          try {
-            recognition.stop();
-          } catch {}
-          // speak(res.data.response);
-          handleCommond(res.data);
+          if (res?.data?.response) {
+            window.speechRecognitionActive = false;
+            try {
+              recognition.stop();
+            } catch {}
+            // speak(res.data.response);
+            handleCommond(res.data);
+          }
+        } catch (err) {
+          console.error("Ask assistant error:", err);
+          const errorMsg = err.response?.data?.response || "Something went wrong. Please check your connection.";
+          speak(errorMsg);
         }
       }
     };
