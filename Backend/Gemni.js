@@ -23,8 +23,7 @@ Instructions:
 - "type": determine the intent of the user.
 -"userinput": original sentence the user spoke.
 
-- "response": A short voice-friendly reply, e.g., "Sure, playing it now", "Here's
-what I found", “Today is Tuesday", etc.
+- "response": A short voice-friendly reply. For "general" questions (type: "general"), "response" MUST contain the actual concise answer to the user's question (e.g. "Virat Kohli is a famous Indian cricketer..."). For actions (like opening websites or playing videos), it should be a quick acknowledgment (e.g., "Sure, playing it now", "Opening YouTube", etc.).
 
 Type meanings:
 - "general": if it's a factual or informational question means kuch bhi puche jo internet per avliable hai toh uska jawab dena hai tumnhe okey.
@@ -56,12 +55,60 @@ now your userInput - ${prompt}
 `;
 
 
-        const result=await axios.post(apiUrl,{
-            "contents":[{
-                "parts":[{"text":geminiPrompt}]
-            }]
-        })
-        return result.data.candidates[0].content.parts[0].text;
+        const result = await axios.post(apiUrl, {
+            "contents": [{
+                "parts": [{ "text": geminiPrompt }]
+            }],
+            "safetySettings": [
+                {
+                    "category": "HARM_CATEGORY_HARASSMENT",
+                    "threshold": "BLOCK_NONE"
+                },
+                {
+                    "category": "HARM_CATEGORY_HATE_SPEECH",
+                    "threshold": "BLOCK_NONE"
+                },
+                {
+                    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    "threshold": "BLOCK_NONE"
+                },
+                {
+                    "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    "threshold": "BLOCK_NONE"
+                }
+            ],
+            "generationConfig": {
+                "responseMimeType": "application/json"
+            }
+        });
+
+        const candidate = result.data.candidates?.[0];
+        if (!candidate) {
+            return JSON.stringify({
+                type: "general",
+                userInput: prompt,
+                response: "I didn't receive a response from the assistant."
+            });
+        }
+
+        if (candidate.finishReason === "SAFETY") {
+            return JSON.stringify({
+                type: "general",
+                userInput: prompt,
+                response: "I cannot answer that because it was blocked by safety settings."
+            });
+        }
+
+        const text = candidate.content?.parts?.[0]?.text;
+        if (!text) {
+            return JSON.stringify({
+                type: "general",
+                userInput: prompt,
+                response: "I received an empty response from the assistant."
+            });
+        }
+
+        return text;
     } catch (error) {
         console.error("Gemini API Error:", error.response?.data || error.message);
         throw new Error(error.response?.data?.error?.message || error.message);
