@@ -74,8 +74,7 @@ export const Loging = async (req, res) => {
     //hasing the password
     const comparePassword = await bcrypt.compare(password, user.password);
     if (!comparePassword) {
-      throw new Error("Invalied Creadiantial !");
-
+      return res.status(400).json({ message: "Invalid Credentials!" });
     }
     // genrate token....
     const token = jwt.sign({ "_id": user._id, "email": user.email, "name": user.name }, process.env.JWT_SECRATE_KEY, { expiresIn: "7d" })

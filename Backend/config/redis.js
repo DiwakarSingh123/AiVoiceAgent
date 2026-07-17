@@ -2,11 +2,11 @@
 import { createClient } from 'redis';
 // require('dotenv').config();
 const redisClient = createClient({
-    username: 'default',
-    password: '2hODpMAPkzdtgPxOf5wpmIJJTmIOpoXs',
+     username: 'default',
+    password: '857oLzgkbM4oHmDy56arTbKTAiTTxWgb',
     socket: {
-        host: 'redis-14553.c262.us-east-1-3.ec2.cloud.redislabs.com',
-        port: 14553
+        host: 'redis-15839.c262.us-east-1-3.ec2.cloud.redislabs.com',
+        port: 15839
     }
 });
 

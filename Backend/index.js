@@ -10,9 +10,22 @@ import cookieParser from "cookie-parser";
 import redisClient from "./config/redis.js";
 import GemniResponse from "./Gemni.js";
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : [
+      "https://aivoiceagent-frontents.onrender.com",
+      "http://localhost:5173",
+    ];
+
 app.use(cors({
-  origin: "https://aivoiceagent-frontents.onrender.com", // jahan se frontend run kar raha hai (Vite/React ka port)
-  credentials: true // 👈 cookies allow karna hoga
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
+  credentials: true
 }));
 
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import axiosClient from "../utils/axois";
 import { setData } from "../Redux/userSlice";
@@ -13,69 +13,44 @@ import { IoArrowBack } from "react-icons/io5";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const user = useSelector(state => state.user.userData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
     try {
-
-      const res = await axiosClient.post("/api/auth/login", formData, { withCredentials: true });
-
-      console.log("Login SUCCESS:", res.data);
-      dispatch(setData(res?.data?.user))
-      const u = res?.data?.user; // freshly logged in user
-
-      if (u.assistantImage && u.assistantName) {
-        navigate("/assistant");
-      } else {
-        navigate("/customize");
-      }
-
-      setFormData({
-        email: "",
-        password: "",
-      });
-
+      const res = await axiosClient.post("/api/auth/login", formData);
+      dispatch(setData(res?.data?.user));
+      const u = res?.data?.user;
+      u?.assistantImage && u?.assistantName ? navigate("/assistant") : navigate("/customize");
     } catch (err) {
-      console.log("REGISTER ERROR:", err.response?.data || err.message);
+      setError(err.response?.data?.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
   };
 
-  // signUp with Google.......
   const handleWithGoogle = async () => {
+    setError("");
     try {
       const result = await signInWithPopup(auth, googleProvoider);
-      console.log(result);
-
-      const formData = {
+      const { data } = await axiosClient.post("/api/auth/google-auth", {
         name: result?.user?.displayName,
-        email: result?.user?.email
-      }
-
-      const { data } = await axiosClient.post("/api/auth/google-auth", formData);
-      console.log(data);
-      dispatch(setData(data?.user))
-      const u = data?.user; // freshly logged in user
-
-      if (u.assistantImage && u.assistantName) {
-        navigate("/assistant");
-      } else {
-        navigate("/customize");
-      }
-
+        email: result?.user?.email,
+      });
+      dispatch(setData(data?.user));
+      const u = data?.user;
+      u?.assistantImage && u?.assistantName ? navigate("/assistant") : navigate("/customize");
     } catch (err) {
-      console.log(err);
-
+      setError(err.response?.data?.message || "Google sign-in failed.");
     }
-  }
+  };
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -162,12 +137,14 @@ const SignIn = () => {
             </button>
           </div>
 
-          {/* SIGN IN BUTTON */}
+            {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+
           <button
             type="submit"
-            className="w-full max-w-[220px] mx-auto block px-8 py-3 rounded-full bg-blue-500 text-white font-medium hover:bg-blue-600 transition shadow-xl hover:shadow-blue-500/40"
+            disabled={loading}
+            className="w-full max-w-[220px] mx-auto block px-8 py-3 rounded-full bg-blue-500 text-white font-medium hover:bg-blue-600 transition shadow-xl hover:shadow-blue-500/40 disabled:opacity-60"
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </button>
 
         </form>
