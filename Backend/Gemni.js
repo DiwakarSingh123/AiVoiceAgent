@@ -63,8 +63,8 @@ now your userInput - ${prompt}
         })
         return result.data.candidates[0].content.parts[0].text;
     } catch (error) {
-        console.log(error);
-        
+        console.error("Gemini API Error:", error.response?.data || error.message);
+        throw new Error(error.response?.data?.error?.message || error.message);
     }
 }
 
