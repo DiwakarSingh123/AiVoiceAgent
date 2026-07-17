@@ -4,11 +4,6 @@ An interactive, voice-enabled AI Assistant built using **React**, **Node.js/Expr
 
 ---
 
-## 🚀 Live Deployments
-* **Frontend (Render):** [https://aivoiceagent-frontents.onrender.com](https://aivoiceagent-frontents.onrender.com)
-* **Backend (Railway):** [https://aivoiceagent-production-1a3f.up.railway.app](https://aivoiceagent-production-1a3f.up.railway.app)
-
----
 
 ## 🛠️ Technology Stack
 
